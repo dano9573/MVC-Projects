@@ -1,0 +1,103 @@
+﻿@model List<HelloMVC.Models.Car>
+
+  @*Razor code block expression*@
+@{
+    ViewBag.Title = "Index";
+    var value = 1000; // use end of line characters can be referenced in the code below.
+}
+
+<h1>@ViewBag.DanCreatedThisValue</h1>
+<h2>Dan changed this!</h2>
+<p>Hello Again!</p>
+
+@{ 
+    value += 1;
+}
+@{ 
+    var crisesCount = 2;
+}
+
+
+@{  @*inline code expression*@
+var name = "Dan";
+var day = DateTime.Now.DayOfWeek.ToString();
+
+    <p>Howdy, @name.  Today is @day.</p> @*this is inline code with html*@
+    <p>Howdy, @name.  Aren't @(day)'s the best.</p>  // use parenthesis to get the 's to show up
+                                                    
+}
+
+@{ 
+    var productId = 123;
+    <p>Product ID: ACME@(productId)</p> //mixed expression use parenthesis to tell razor to use the product id
+}
+
+<p>Value: @value.ToString("C")</p>
+
+@foreach (var car in Model)  //Passed in from the HelloModel.cs page.
+{
+    <p>@car.Id - @car.Make - @car.Model</p>
+}
+
+
+@helper pluralizeChildren(int childCount) {     //creates a @helper method to pluralize a word
+    @(childCount == 1 ? "child" : "children");  //explecit statement 
+    }
+
+@{ 
+    var childCount = 1;
+    <p>I have @childCount @pluralizeChildren(@childCount).</p>
+}
+
+
+@helper pluralize(int amount, string singular, string plural)
+    { 
+        @(amount == 1 ? singular : plural)
+    }
+
+@{ 
+    
+    <p>Mr. President, there @pluralize(crisesCount, "is one crisis", "are " + crisesCount + " crises ") you must deal with immediately.</p>
+}
+
+
+@* This is a comment *@
+
+<p>
+
+    Mr. President, there
+    @if (crisesCount == 1)
+    {
+        <span>is one crisis</span>
+    }
+    else
+    {
+        <span> are @crisesCount crises</span>
+    }
+    you must deal with immetiately!
+</p>
+
+<p>
+    @{ 
+        var test = false;
+        if (!test)
+        {
+            @:Display this,   @*another way to display results*@
+
+        <span>
+            Now is the time for all good men to come to the aid of their country.
+        </span>
+        }
+    }
+</p>
+
+@for (int i = 0; i < 10; i++) // for tab tab
+{
+    <p>@i</p>
+}
+
+<p>bob@learnvisualstudio.net</p>
+<p>@@bobtabor</p>  @* @@ escapes the @ sybmol so it can be used freestanding and isn't razor.*@
+
+
+
